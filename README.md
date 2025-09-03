@@ -1,0 +1,1 @@
+This is a number guessing game application where the program randomly selects a number and the player has to guess it with a limited number of attempts. This project highlights how source code can be built, tested and deployed.   
