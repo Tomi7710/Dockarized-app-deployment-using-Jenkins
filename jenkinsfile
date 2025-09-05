@@ -42,7 +42,7 @@ pipeline {
                 sshagent(['tomcat-ssh']) {
                     sh '''
                         # Copy WAR to remote Tomcat server
-                        scp -o StrictHostKeyChecking=no target/*.war ec2-user@18.220.215.53:/apache-tomcat-7.0.94/webapps/
+                        scp -o StrictHostKeyChecking=no target/*.war ec2-user@18.220.215.53:/home/ec2-user/apache-tomcat-7.0.94/webapps
 
                     '''
                 }
