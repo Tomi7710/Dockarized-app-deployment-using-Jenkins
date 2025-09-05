@@ -46,7 +46,6 @@ pipeline {
                                     sourceFiles: 'target/*.war',
                                     removePrefix: 'target',
                                     remoteDirectory: '/opt/tomcat/webapps',
-                                    execCommand: 'sudo systemctl restart tomcat'  // optional: restart Tomcat
                                 )
                             ],
                             usePromotionTimestamp: false,
