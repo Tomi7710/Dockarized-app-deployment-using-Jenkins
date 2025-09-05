@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Tomi7710/NG.git'
+                git branch: 'dev', url: 'https://github.com/Tomi7710/NG.git'
             }
         }
 
@@ -37,24 +37,18 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "Deploying WAR to remote Tomcat server via SSH..."
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: 'tomcat-server',   // must match SSH site name in Jenkins Configure System
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: 'target/*.war',
-                                    removePrefix: 'target',
-                                    remoteDirectory: '/opt/tomcat/webapps',
-                                )
-                            ],
-                            usePromotionTimestamp: false,
-                            verbose: true
-                        )
-                    ]
-                )
+                
+                // Use the SSH credential you added in Jenkins
+                sshagent(['tomcat-ssh']) {
+                    sh '''
+                        # Copy WAR to remote Tomcat server
+                        scp -o StrictHostKeyChecking=no target/*.war ec2-user@<TOMCAT_SERVER_IP>:/opt/tomcat/webapps/
+
+                    '''
+                }
             }
         }
     }
 }
+
 
