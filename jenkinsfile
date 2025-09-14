@@ -7,7 +7,7 @@ pipeline {
     }
 
     triggers {
-        githubPush()
+        githubPush()  // triggers pipeline on GitHub push
     }
 
     stages {
@@ -22,6 +22,29 @@ pipeline {
                 sh "mvn clean package -DskipTests"
             }
         }
+        
+        stage('SonarQube Analysis') { 
+            steps {
+                withSonarQubeEnv('SonarQubeServer') { // Jenkins SonarQube server name
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+         stage('Quality Gate Check') { 
+            steps {
+                timeout(time: 1, unit: 'MINUTES') { // wait max 1 minute for SonarQube analysis
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
+                        } else {
+                            echo "SonarQube quality gate passed: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Test') {
             steps {
@@ -33,28 +56,82 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                echo "Deploying WAR to remote Tomcat server via SSH..."
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: 'tomcat-server',   // must match SSH site name in Jenkins Configure System
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: 'target/*.war',
-                                    removePrefix: 'target',
-                                    remoteDirectory: '/opt/tomcat/webapps',
-                                )
-                            ],
-                            usePromotionTimestamp: false,
-                            verbose: true
-                        )
-                    ]
-                )
-            }
+        
+        stage('Cleanup Old Docker Container') {
+    steps {
+        script {
+            sh '''
+                if [ $(docker ps -q -f name=numberguessgame) ]; then
+                    echo "Stopping old container..."
+                    docker stop numberguessgame
+                    docker rm numberguessgame
+                fi
+            '''
         }
     }
 }
+        stage('Docker Build & Deploy') {
+            steps {
+                script {
+                    // Build Docker image
+                    sh 'docker build -t numberguessgame:latest .'
 
+
+                    // Run new container
+                    sh 'docker run -d --name numberguessgame -p 8080:8080 numberguessgame:latest'
+                
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+        script {
+            try {
+                // Check HTTP status
+                def response = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/', returnStdout: true).trim()
+                if (response != '200') {
+                    error "Deployment failed, HTTP status: ${response}"
+                }
+
+                // Check page content
+                def content = sh(script: 'curl -s http://localhost:8080/', returnStdout: true).trim()
+                if (!content.contains("Number Guessing Game")) {
+                    error "Deployment verification failed: expected content not found"
+                }
+
+                echo "Deployment verified successfully. Application is running."
+            } catch (err) {
+                // Show container logs for debugging
+                echo "Showing container logs for debugging:"
+                sh 'docker logs numberguessgame'
+                throw err
+            }
+  
+         }
+
+      }
+
+   }
+
+ 
+   post {
+        success { // <-- email notification on success
+            emailext(
+                subject: "Jenkins Pipeline SUCCESS: ${currentBuild.fullDisplayName}",
+                body: """The build, quality check, and deployment were successful.
+Access the app here: http://localhost:8080/""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+        failure { // <-- email notification on failure
+            emailext(
+                subject: "Jenkins Pipeline FAILED: ${currentBuild.fullDisplayName}",
+                body: """Oops! The pipeline failed.
+This may be due to build errors, test failures, or SonarQube quality gate failure.
+Check Jenkins logs for details.""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+    }
+}
