@@ -12,6 +12,13 @@
     <name>Number Guessing Game</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <sonar.projectKey>com.studentapp:NumberGuessGame</sonar.projectKey>
+        <sonar.projectName>NumberGuessGame</sonar.projectName>
+        <sonar.host.url>http://18.218.219.208:9000</sonar.host.url>
+    </properties>
+
+
     <dependencies>
         <!-- Servlet API -->
         <dependency>
