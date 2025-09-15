@@ -70,16 +70,15 @@ pipeline {
         }
     }
 }
+
         stage('Docker Build & Deploy') {
             steps {
                 script {
                     // Build Docker image
                     sh 'docker build -t numberguessgame:latest .'
 
-
                     // Run new container
-                    sh 'docker run -d --name numberguessgame -p 8080:8080 numberguessgame:latest'
-                
+                    sh 'docker run -d --name numberguessgame -p 8080:8080 numberguessgame:latest'                
                 }
             }
         }
@@ -102,18 +101,15 @@ pipeline {
 
                 echo "Deployment verified successfully. Application is running."
             } catch (err) {
+
                 // Show container logs for debugging
                 echo "Showing container logs for debugging:"
                 sh 'docker logs numberguessgame'
                 throw err
-            }
-  
+            }  
          }
-
       }
-
    }
-
  
    post {
         success { // <-- email notification on success
