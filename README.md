@@ -1,13 +1,13 @@
-# DevOps Project: CI/CD Pipeline with Jenkins, Maven, SonarQube and Docker
+## DevOps Project: CI/CD Pipeline with Jenkins, Maven, SonarQube and Docker
 
-## Project Overview
+### Project Overview
 This project demonstrates a fully automated **Continuous Integration (CI)** and **Continuous Delivery (CD)** pipeline for a Java web application. The pipeline automates the build, test and code quality processes, containerization and deployment.  
 
 It highlights end-to-end DevOps skills: **automation, infrastructure configuration, CI/CD orchestration, containerization and quality assurance**.
 
 ---
 
-## Tech Stack
+### Tech Stack
 - **Language:** Java (Servlets, JSP)  
 - **Build Tool:** Maven  
 - **Version Control:** Git & GitHub  
@@ -19,7 +19,7 @@ It highlights end-to-end DevOps skills: **automation, infrastructure configurati
 
 ---
 
-## Features
+### Features
 - Source code management with Git/GitHub  
 - Infrastructure security with AWS VPC and Security Groups  
 - Fully automated CI/CD pipeline with Jenkins  
@@ -31,7 +31,7 @@ It highlights end-to-end DevOps skills: **automation, infrastructure configurati
 
 ---
 
-## Repository Structure
+### Repository Structure
 ```
 NumberGuessGame/
 │-- src/
@@ -50,7 +50,7 @@ NumberGuessGame/
 
 ---
 
-## Application Logic
+### Application Logic
 The application is a **Number Guessing Game**:  
 - Server generates a random number  
 - User submits guesses via a web form  
@@ -63,17 +63,17 @@ Built using the **MVC pattern**:
 
 ---
 
-## Key Configuration Files
+### Key Configuration Files
 - **pom.xml:** Manages dependencies and build lifecycle  
 - **Dockerfile:** Defines containerization and deployment instructions  
 - **Jenkinsfile:** Defines CI/CD pipeline stages  
 
 ---
 
-## CI/CD Workflow
+### CI/CD Workflow
 **Build → SonarQube Analysis → Quality Gate Check → Test → Dockerized Deployment**  
 
-### Workflow Highlights
+#### Workflow Highlights
 - **Checkout:** Pulls latest code from GitHub  
 - **Build:** Compiles Java app and packages WAR file via Maven  
 - **SonarQube Analysis:** Runs static code analysis  
