@@ -33,7 +33,7 @@ pipeline {
 
          stage('Quality Gate Check') { 
             steps {
-                timeout(time: 3, unit: 'MINUTES') { // wait max 1 minute for SonarQube analysis
+                timeout(time: 5, unit: 'MINUTES') { // wait max 1 minute for SonarQube analysis
                     script {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
