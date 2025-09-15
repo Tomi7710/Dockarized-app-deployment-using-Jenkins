@@ -66,3 +66,5 @@ Cleanup – Stops and removes any existing container to avoid conflicts
 Docker Build & Deploy – Builds a new Docker image and deploys it to Tomcat
 Verification – Health check via HTTP request and container logs to confirm successful deployment
 Notifications – Sends email alerts on build success or failure
+
+
