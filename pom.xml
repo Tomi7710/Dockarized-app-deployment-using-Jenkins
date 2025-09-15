@@ -15,7 +15,7 @@
     <properties>
         <sonar.projectKey>com.studentapp:NumberGuessGame</sonar.projectKey>
         <sonar.projectName>NumberGuessGame</sonar.projectName>
-        <sonar.host.url>http://18.218.219.208:9000</sonar.host.url>
+        <sonar.host.url>http://172.31.19.238:9000</sonar.host.url>
     </properties>
 
 
