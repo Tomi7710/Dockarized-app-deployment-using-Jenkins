@@ -110,8 +110,8 @@ pipeline {
          }
       }
    }
- 
-   post {
+}
+post {
         success { // <-- email notification on success
             emailext(
                 subject: "Jenkins Pipeline SUCCESS: ${currentBuild.fullDisplayName}",
