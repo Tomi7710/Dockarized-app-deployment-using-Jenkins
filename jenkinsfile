@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_AUTH_TOKEN = credentials('sonarqube-token')  // Jenkins secret for SonarQube
+    }
+
     tools {
         maven 'Maven3.8.4'
         jdk 'Java17'
@@ -26,14 +30,14 @@ pipeline {
         stage('SonarQube Analysis') { 
             steps {
                 withSonarQubeEnv('SonarQube') { // Jenkins SonarQube server name
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN'  // use token
                 }
             }
         }
 
          stage('Quality Gate Check') { 
             steps {
-                timeout(time: 15, unit: 'MINUTES') { // wait max 1 minute for SonarQube analysis
+                timeout(time: 1, unit: 'MINUTES') { // wait max 1 minute for SonarQube analysis
                     script {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
