@@ -1,9 +1,9 @@
-# DevOps Project: CI/CD Pipeline with Jenkins, Maven, SonarQube, and Docker
+# DevOps Project: CI/CD Pipeline with Jenkins, Maven, SonarQube and Docker
 
 ## Project Overview
-This project demonstrates a fully automated **Continuous Integration (CI)** and **Continuous Delivery (CD)** pipeline for a Java web application. It automates the build, test, and code quality processes, containerization, and deployment.  
+This project demonstrates a fully automated **Continuous Integration (CI)** and **Continuous Delivery (CD)** pipeline for a Java web application. The pipeline automates the build, test and code quality processes, containerization and deployment.  
 
-Highlights end-to-end DevOps skills: **automation, infrastructure configuration, CI/CD orchestration, containerization, and quality assurance**.
+It highlights end-to-end DevOps skills: **automation, infrastructure configuration, CI/CD orchestration, containerization and quality assurance**.
 
 ---
 
@@ -21,14 +21,13 @@ Highlights end-to-end DevOps skills: **automation, infrastructure configuration,
 
 ## Features
 - Source code management with Git/GitHub  
-- Secure infrastructure with AWS VPC and Security Groups  
+- Infrastructure security with AWS VPC and Security Groups  
 - Fully automated CI/CD pipeline with Jenkins  
 - Static code analysis with SonarQube and Quality Gate enforcement  
 - Automated JUnit test execution and reporting  
 - Dockerized deployment to Apache Tomcat  
 - Health checks and container log verification post-deployment  
-- Email notifications on build success or failure  
-- Cloud-hosted on AWS with secured networking  
+- Email notifications on build success or failure    
 
 ---
 
@@ -72,14 +71,14 @@ Built using the **MVC pattern**:
 ---
 
 ## CI/CD Workflow
-**Build → SonarQube Analysis → Quality Gate Check → Test → Dockerized Deployment → Verification**  
+**Build → SonarQube Analysis → Quality Gate Check → Test → Dockerized Deployment**  
 
 ### Workflow Highlights
 - **Checkout:** Pulls latest code from GitHub  
 - **Build:** Compiles Java app and packages WAR file via Maven  
 - **SonarQube Analysis:** Runs static code analysis  
 - **Quality Gate Check:** Pipeline fails if SonarQube gate is not passed  
-- **Test:** Executes JUnit tests and publishes results  
+- **Test:** Executes JUnit tests and publishes results in jenkins  
 - **Cleanup:** Stops and removes existing containers to avoid conflicts  
 - **Docker Build & Deploy:** Builds new Docker image and deploys to Tomcat  
 - **Verification:** Health checks and container logs confirm deployment success  
