@@ -1,4 +1,4 @@
-### CI/CD Pipeline Automation with Jenkins, Maven, SonarQube and Docker
+### CI/CD Pipeline Automation with Docker, Jenkins, SonarQube and Maven
 
 #### Project Overview
 This project demonstrates a fully automated **Continuous Integration (CI)** and **Continuous Delivery (CD)** pipeline for a Java web application. The pipeline automates the build, test and code quality processes, containerization and deployment.  
